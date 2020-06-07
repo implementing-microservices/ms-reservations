@@ -27,12 +27,12 @@ def reserve():
     resp = handlers.reserve(json_body)
     if (resp.get("status") == "success"):
         return jsonify(resp)
-    else:
-        return Response(
-            json.dumps(resp),
-            status=403,
-            mimetype='application/json'
-        )
+
+    return Response(
+        json.dumps(resp),
+        status=403,
+        mimetype='application/json'
+    )
 
 def init():
     """Init routine for the microservice"""

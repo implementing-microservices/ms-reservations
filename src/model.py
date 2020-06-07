@@ -48,7 +48,7 @@ def save_reservation(reservation):
 
     return response
 
-def get_reservations (flight_id):
+def get_reservations(flight_id):
     """List of reservations for a flight, from Redis database"""
     try:
         key = this.tblprefix + flight_id
@@ -58,9 +58,10 @@ def get_reservations (flight_id):
             "error" : "Cannot retrieve reservations"
         }
         log.error("Error retrieving reservations from Redis",
-            exc_info=True)
+                  exc_info=True)
     else:
         response = reservations
         log.info(f"reservations: {reservations}")
 
     return response
+ 
