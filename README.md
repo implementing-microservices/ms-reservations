@@ -1,5 +1,5 @@
-# ms-python-flask-template
-A template project for a flask-based Python microservice
+# ms-reservations
+A sample implementation of a microservice for the O'Reilly Microservices Up and Running book
 
 ## Prerequisites:
 

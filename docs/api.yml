@@ -1,97 +1,94 @@
-openapi: 3.0.0
-info:
-  title: Microservice Spec
-  description: |
-    Open API Spec for The Sample Python Microservice
-  version: 1.0.0
-servers:
-  - url: http://api.example.com/v1
-    description: Production Server
-paths:
-  /users:
-    post:
-      summary: Create a user
-      description: |
-        Example request:
-        ```
-          POST http://0.0.0.0:7701/users
-        ```
-      responses:
-        '200':    # success response
-          description: Successful Response
+  openapi: 3.0.0
+  info:
+    title: Seat Reservation System API
+    description: |
+      API Spec for Fight Management System
+    version: 1.0.1
+  servers:
+    - url: http://api.example.com/v1
+      description: Production Server
+  paths:
+    /reservations:
+      get:
+        summary: Get Reservations for a flight
+        description: |
+          Get all reservations for a specific flight
+        parameters:
+          - name: flight_id
+            in: query
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':    # success response
+            description: Successful Response
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      seat_no:
+                        type: string
+                        example: "18F"
+                  example:
+                    - { seat_no: "18F" }
+                    - { seat_no: "18D" }
+                    - { seat_no: "15A" }
+                    - { seat_no: "15B" }
+                    - { seat_no: "7A" }
+      put:
+        summary: Reserve or cancel a seat
+        description: |
+          Reserves a seat or removes a seat reservation
+        requestBody:
+          required: true
           content:
             application/json:
-              schema: 
-                type: object
-                properties:
-                  completion:
-                    type: object
-                    properties: 
-                      status:
-                        type: string
-                        enum: ["success", "error"]
-                      user_id: 
-                        type: string
-                example: 
-                  - completion: 
-                      status: "success"
-                      user_id: "53e0cd62-9d35-11ea-a264-cf3d170562c2"
-  /users/{user_id}:
-    post:
-      summary: Update a user
-      description: |
-        Example request:
-        ```
-          POST http://0.0.0.0:7701/users/1234-56789-abcde
-        ```
-      parameters:
-        - name: user_id
-          required: true
-          in: path
-          description: User ID.
-          schema: 
-            type : string
-          example: 53e0cd62-9d35-11ea-a264-cf3d170562c2
-                  
-      responses:
-        '200':    # success response
-          description: Successful Response
-          content:
-            application/json:
-              schema: 
-                type: object
-                properties:
-                  completion:
-                    type: object
-                    properties: 
-                      status:
-                        type: string
-                        enum: ["success", "error"]
-                      user_id: 
-                        type: string
-                example: 
-                  - completion: 
-                      status: "success"
-                      user_id: "53e0cd62-9d35-11ea-a264-cf3d170562c2"
-
-                    
-  /hello/{name}:
-    get:
-      summary: Greeter Endpoint
-      parameters:
-        - name: name
-          in: path
-          required: true
-          description: Name of the person to greet.
-          schema: 
-            type : string
-          example: Mary
-
-      responses:
-        '200':    # success response
-          description: Successful Response
-          content:
-             text/plain:
-              schema:
-                type: string
-                example: Hello, Mary!
+                schema:
+                  type: object
+                  properties:
+                    flight_id:
+                      description: Flight's Unique Identifier.
+                      type : string
+                      example: "edcc03a4-7f4e-40d1-898d-bf84a266f1b9"
+                    customer_id:
+                      description: Registered Customer's Unique Identifier
+                      type : string
+                      example: "2e850e2f-f81d-44fd-bef8-3bb5e90791ff"
+                    seat_num:
+                      description: seat number
+                      type: string
+                example:
+                  flight_id: "edcc03a4-7f4e-40d1-898d-bf84a266f1b9"
+                  customer_id: "2e850e2f-f81d-44fd-bef8-3bb5e90791ff"
+                  seat_num: "8D"
+        responses:
+          '200':
+            description: |
+              Success.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: string
+                      enum: ["success", "error"]
+                      example:
+                        "success"
+          '403':
+            description: seat(s) unavailable. Booking failed.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
+                    description:
+                      type: string
+                  example:
+                    error: "Could not complete reservation"
+                    description: "Seat already reserved. Cannot double-book"

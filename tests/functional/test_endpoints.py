@@ -6,27 +6,27 @@ from service import app
 
 def test_user_save():
     """Test user saving"""
-    response = app.test_client().post(
-        '/users/12345',
-        data=json.dumps({'name': "test_user", 'b': "test_user_other_data"}),
+    response = app.test_client().put(
+        '/reservations',
+        data=json.dumps({'seat_num': "12C", 'flight_id': "QWE123", "customer_id": "anon"}),
         content_type='application/json',
     )
 
-    data = json.loads(response.get_data(as_text=True))
+    # data = json.loads(response.get_data(as_text=True))
 
-    assert response.status_code == 200
-    assert data['completion']['user_id'] == '12345'
+    valid_response = (response.status_code == 200 or response.status_code == 403)
+    assert valid_response == True
+    #assert data['completion']['user_id'] == '12345'
 
 
-def test_greeter():
+
+def test_getter():
     """test greeter endpoint"""
     response = app.test_client().get(
-        '/hello/nina'
-        #data=json.dumps({'a': 1, 'b': 2}),
-        #content_type='application/json',
+        '/reservations?flight_id=QWE123'
     )
 
-    data = response.get_data(as_text=True)
+    # data = response.get_data(as_text=True)
 
     assert response.status_code == 200
-    assert data == "Hello nina!"
+    # assert data == "Hello nina!"
