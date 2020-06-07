@@ -1,8 +1,8 @@
 version: "3.4"
 
 services:
-  ms-template-microservice:
-    container_name: ms-template-microservice
+  ms-reservations:
+    container_name: ms-reservations
     build:
       context: .
     restart: always
@@ -15,11 +15,11 @@ services:
     environment:
       FLASK_ENV: development
     links:
-      - ms-redis
-    command: ./wait-for.sh -t 60 ms-redis:6379 -- gunicorn -b 0.0.0.0:5000 --reload -w 1 service:app
+      - ms-reservations-redis
+    command: ./wait-for.sh -t 60 ms-reservations-redis:6379 -- gunicorn -b 0.0.0.0:5000 --reload -w 1 service:app
 
-  ms-redis:
-    container_name: ms-redis
+  ms-reservations-redis:
+    container_name: ms-reservations-redis
     image: redis:alpine
     restart: always
     command: redis-server --requirepass 4n_ins3cure_P4ss
@@ -30,10 +30,10 @@ services:
     expose:
       - 6379
     volumes:
-      - local_redis_data:/var/lib/redis
+      - ms_reservations_redis_data:/var/lib/redis
       #- $PWD/redis.conf:/usr/local/etc/redis/redis.conf
     environment:
       - REDIS_REPLICATION_MODE=master
 
 volumes:
-  local_redis_data:
+  ms_reservations_redis_data:
