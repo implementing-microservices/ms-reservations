@@ -16,7 +16,7 @@ app = Flask(__name__)
 @app.route('/reservations', methods=['GET'])
 def reservations():
     """ Get Reservations Endpoint"""
-    flight_id = request.args.get('flight_id')
+    flight_id = request.args.get('flight_id', '')
     resp = handlers.get_reservations(flight_id)
     return jsonify(resp)
 
