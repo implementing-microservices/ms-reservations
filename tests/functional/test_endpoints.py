@@ -15,7 +15,7 @@ def test_user_save():
     # data = json.loads(response.get_data(as_text=True))
 
     valid_response = (response.status_code == 200 or response.status_code == 403)
-    assert valid_response == True
+    assert valid_response
     #assert data['completion']['user_id'] == '12345'
 
 

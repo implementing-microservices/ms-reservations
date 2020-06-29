@@ -25,7 +25,7 @@ def reserve():
     """Endpoint that reserves a seat for a customer"""
     json_body = request.get_json(force=True)
     resp = handlers.reserve(json_body)
-    if (resp.get("status") == "success"):
+    if resp.get("status") == "success":
         return jsonify(resp)
 
     return Response(

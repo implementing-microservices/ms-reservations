@@ -4,6 +4,8 @@ import sys
 import logging as log
 import redis
 
+#pylint: disable=logging-fstring-interpolation
+
 def env_var(name, default):
     """Safely retrieve an env var, with a default"""
     return os.environ.get(name) if name in os.environ else default
@@ -64,4 +66,3 @@ def get_reservations(flight_id):
         log.info(f"reservations: {reservations}")
 
     return response
- 

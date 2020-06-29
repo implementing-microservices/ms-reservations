@@ -1,5 +1,6 @@
 """ Endpoint Callback Handlers """
 
+#pylint: disable=unused-import
 import logging as log
 import uuid
 import json
