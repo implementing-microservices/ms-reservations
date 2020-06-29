@@ -34,6 +34,14 @@ def reserve():
         mimetype='application/json'
     )
 
+@app.route('/ping', methods=['GET'])
+def ping():
+    """ Liveness probe """
+    resp = {
+        "status" : "pass"
+    }
+    return jsonify(resp)
+
 def init():
     """Init routine for the microservice"""
     uuid.uuid1() # prime the uuid generator at startup
